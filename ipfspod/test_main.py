@@ -58,4 +58,3 @@ def test_cli():
             assert "x-helix" in feed
     finally:
         check_call(["ipfs", "key", "rm", "foo"])
-
