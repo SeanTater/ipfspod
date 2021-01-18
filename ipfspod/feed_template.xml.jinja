@@ -2,11 +2,12 @@
 <rss version="2.0">
 <channel>
   <title>{{ channel.title }}</title>
-  <description> 
-    <!DOCTYPE html>
+  <description>
     <html>
       <head>
         <title> {{ channel.title }} </title>
+        {# This is picniccss 6.5.4  #}
+        <link rel="stylesheet" href="http://localhost:8080/ipfs/QmVzUrjFxmWENtAGoquJKcT4y4p3iTD7GE1GWqgviX6SRA" />
       </head>
       <body>
         <h1> {{ channel.title }} </h1>
@@ -39,7 +40,12 @@
       <category>{{ category }} </category>
     {% endfor %}
     <pubDate>{{ episode.date }}</pubDate>
-    <link>{{ episode.link }}</link>
+    {# If not specified, the link will default to the first attachment. #}
+    <link>{{
+      episode.link
+      or episode.enclosures
+      and ("http://localhost:8080/ipfs/"+episode.enclosures[0].hash)
+    }}</link>
     <guid>{{ episode.hash }}</guid>
     {% for enclosure in episode.enclosures %}
       <enclosure
@@ -48,9 +54,11 @@
         type="{{ enclosure.type }}" />
     {% endfor %}
     <description>
-      <!DOCTYPE html>
+      <html>
         <head>
           <title> {{ episode.title }} </title>
+          {# This is picniccss 6.5.4  #}
+          <link rel="stylesheet" href="http://localhost:8080/ipfs/QmVzUrjFxmWENtAGoquJKcT4y4p3iTD7GE1GWqgviX6SRA" />
         </head>
         <body>
           <h1> {{ episode.title }} </h1>

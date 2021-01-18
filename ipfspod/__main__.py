@@ -173,7 +173,7 @@ def run_add(args):
         link=args.link,
         author=args.author or channel['managing_editor'],
         categories=args.category,
-        date=datetime.utcnow().strftime(r"%a, %d %b %Y %H:%M:%SZ"),
+        date=datetime.utcnow().strftime(r"%a, %d %b %Y %H:%M:%S +0000"),
         enclosures=[
             # Name the fields and include any we just indexed
             dict(hash=enc[0], len=enc[1], type=enc[2])
@@ -221,14 +221,14 @@ def run_publish(args):
         """
     home = Path(args.channel).absolute()
     channel = json.loads(home.joinpath("channel.json").read_text())
-    now = datetime.utcnow().strftime(r"%a, %d %b %Y %H:%M:%SZ")
+    now = datetime.utcnow().strftime(r"%a, %d %b %Y %H:%M:%S +0000")
     episodes = [
         json.loads(line)
         for line in home.joinpath("episodes.json").read_text().splitlines()
     ]
     env = Environment(
         loader=FileSystemLoader(home.as_posix()),
-        autoescape=select_autoescape(['html', 'xml'])
+        autoescape=select_autoescape(['html', 'xml', 'jinja'])
     )
     template = env.get_template("feed_template.xml.jinja")
     feed = template.render(channel=channel, episodes=episodes, now=now)
