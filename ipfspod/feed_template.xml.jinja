@@ -3,17 +3,20 @@
 <channel>
   <title>{{ channel.title }}</title>
   <description>
-    <html>
-      <head>
-        <title> {{ channel.title }} </title>
-        {# This is picniccss 6.5.4  #}
-        <link rel="stylesheet" href="http://localhost:8080/ipfs/QmVzUrjFxmWENtAGoquJKcT4y4p3iTD7GE1GWqgviX6SRA" />
-      </head>
-      <body>
-        <h1> {{ channel.title }} </h1>
-        <p> {{ channel.desc }} </p>
-      </body>
-    </html>
+    {% filter forceescape %}
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title> {{ channel.title }} </title>
+          {# This is picniccss 6.5.4  #}
+          <link rel="stylesheet" href="http://localhost:8080/ipfs/QmVzUrjFxmWENtAGoquJKcT4y4p3iTD7GE1GWqgviX6SRA" />
+        </head>
+        <body>
+          <h1> {{ channel.title }} </h1>
+          <p> {{ channel.desc }} </p>
+        </body>
+      </html>
+    {% endfilter %}
   </description>
   <link>{{ channel.link }}}</link>
   <language>{{ channel.language }}</language>
@@ -54,17 +57,67 @@
         type="{{ enclosure.type }}" />
     {% endfor %}
     <description>
-      <html>
-        <head>
-          <title> {{ episode.title }} </title>
-          {# This is picniccss 6.5.4  #}
-          <link rel="stylesheet" href="http://localhost:8080/ipfs/QmVzUrjFxmWENtAGoquJKcT4y4p3iTD7GE1GWqgviX6SRA" />
-        </head>
-        <body>
-          <h1> {{ episode.title }} </h1>
-          <p> {{ episode.desc }} </p>
-        </body>
-      </html>
+      {% filter forceescape %}
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <title> {{ episode.title }} </title>
+            {# This is picniccss 6.5.4  #}
+            <link rel="stylesheet" href="http://localhost:8080/ipfs/QmVzUrjFxmWENtAGoquJKcT4y4p3iTD7GE1GWqgviX6SRA" />
+            <style type="text/css">
+              body {
+                background-color: white;
+                background-image:
+                  repeating-linear-gradient(
+                    68deg,
+                    rgba(230, 230, 230, 0.4) 0px,
+                    rgba(230, 230, 230, 0.4) 5px,
+                    rgba(0,0,0,0) 5px,
+                    rgba(0,0,0,0) 10px
+                  ),
+                  repeating-linear-gradient(
+                    128deg,
+                    rgba(230, 230, 230, 0.4) 0px,
+                    rgba(230, 230, 230, 0.4) 5px,
+                    rgba(0,0,0,0) 5px,
+                    rgba(0,0,0,0) 10px
+                  );
+                margin: 0;
+                color: #222;
+              }
+              div.page {
+                background: white;
+                width: 90%;
+                margin: 0 auto;
+                padding: 2vh 2vw;
+              }
+              .page > header {
+                font-size: 120%;
+                background-color: #ddd;
+                border-bottom: 1px solid gray;
+                display: flex;
+                padding: 1em;
+              }
+              .page > header > h1 {
+                flex: 4;
+                padding-left: 2em;
+              }
+            </style>
+          </head>
+          <body>
+            <div class="page">
+              <header>
+                <img
+                  src="http://localhost:8080/ipfs/QmdhW3UzaAravidM1ZFKrKcVNNLjS9DFFMpaFGYb31mpLh"
+                  alt="Channel logo" />
+                <h1> {{ channel.title }} <h1>
+              </header>
+              <h2> {{ episode.title }} </h2>
+              <p> {{ episode.desc }} </p>
+            </div>
+          </body>
+        </html>
+      {% endfilter %}
     </description>
   </item>
   {% endfor %}
