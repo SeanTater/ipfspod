@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title> Peer to peer podcasts over IPFS </title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/picnic">
+  <style type="text/css">
+    body {
+      background-image:
+        repeating-linear-gradient(
+          68deg,
+          rgba(230, 230, 230, 0.4) 0px,
+          rgba(230, 230, 230, 0.4) 5px,
+          rgba(0,0,0,0) 5px,
+          rgba(0,0,0,0) 10px
+        ),
+        repeating-linear-gradient(
+          128deg,
+          rgba(230, 230, 230, 0.4) 0px,
+          rgba(230, 230, 230, 0.4) 5px,
+          rgba(0,0,0,0) 5px,
+          rgba(0,0,0,0) 10px
+        );
+      margin: 0;
+    }
+    div.page {
+      background: white;
+      width: 90%;
+      margin: 0 auto;
+      padding: 2vh 2vw;
+    }
+    card-deck {
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      flex-wrap: wrap;
+    }
+    card-deck article {
+      flex: 1;
+      min-width: 18vw;
+      margin: 1em;
+      display: flex;
+      flex-direction: column;
+    }
+    article > * { flex-grow: 0; }
+    article spacer { flex-grow: 1; }
+    h1, h2 { color: #5773b7; }
+    pre { max-height: 50vh; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <h1> Getting started guide: Setting up peer-to-peer video podcasts </h1>    
+    <h1> For Viewers </h1>
+    <strong> Get started in about 10 minutes </strong>
+    <card-deck>
+      <article>
+        <header><h2> 1 | Install IPFS </h2></header>
+        <p>
+          Make sure it runs in the background. When you download any files via
+          IPFS, the process continues running so it can distribute that file
+          to peers too. Hence you don't need a central server.
+        </p>
+        <p> Be sure to check your package manager for IPFS if you have one. </p>
+        <spacer></spacer>
+        <p>
+          <a
+            href="https://github.com/ipfs-shipyard/ipfs-desktop#install"
+            class="button">
+            Install IPFS
+          </a>
+        </p>
+      </article>
+      <article>
+        <h2> 2 | Pick any podcast client </h2>
+        <p>
+          Any podcast client will do, but keep in mind some don't support
+          video. gPodder is a simple client focused on audio and video,
+          and NewsFlash is an attractive client for articles.
+        </p>
+        <p>
+          There are many available clients, but you only need one, and you
+          may already have one installed.
+        </p>
+        <spacer></spacer>
+        <p>
+          <a href="https://gpodder.github.io/" class="button">
+            gPodder: audio/video
+          </a>
+          <a href="https://gitlab.com/news-flash/news_flash_gtk" class="button">
+            NewsFlash: text
+          </a>
+        </p>
+      </article>
+      <article>
+        <h2> 3 | Find some subscriptions </h2>
+        <p>
+          This may be the hardest part. There's no central server keeping up 
+          with all the channels. So you'll need to find them some other way,
+          maybe from a friend or another website. Some of these may link to
+          localhost:8080, which means the feed also has no server, but instead
+          will run through your IPFS installation.
+        </p>
+        <spacer></spacer>
+        To get started, try this example as a new feed in your podcast client:
+        <pre>http://localhost:8080/ipns/k2k4r8liyjxanmri70a0rbw7u2dy03078cj4ssijex5cjjizc7628bi5</pre>
+      </article>
+    </card-deck>
+    
+    <hr />
+
+    <h1>
+      Creators: Start a channel with
+      <a href="https://github.com/SeanTater/ipfspod"><tt>ipfspod</tt></a>
+    </h1>
+    <strong>First set yourself up as a Viewer, then follow these steps</strong>
+    <card-deck>
+      <article>
+        <h2> 1| Install <tt>ipfspod</tt> and create your channel </h2>
+        <p>
+          If you're on Linux you may already have Python installed.
+          Otherwise, you can find it on
+          <a href="https://www.python.org/downloads/">the Python website</a>
+        </p>
+        <p>
+          This will create a new directory by the same name,
+          and fill it with some templates you can change to your liking.
+        </p>
+        <pre>
+python3 -m pip install ipfspod
+python3 -m ipfspod new my-channel-name
+cd my-channel-name</pre>
+      </article>
+      <article>
+        <h2> 2 | Prepare your video </h2>
+        <ul>
+          <li>
+            Consider encoding your video as
+            <a href="https://www.webmproject.org/about/#">webm</a>,
+            so anyone can open them, even with Chrome and Firefox, for free.
+          </li>
+          <li>
+            License your work with a
+            <a href="https://creativecommons.org/choose/">open license</a>
+            since IPFS depends on people sharing copies.
+          </li>
+          <li>
+            Keep your videos under a few GB so people can still open them on
+            old devices
+          </li>
+        </ul>
+        <p>
+          If you need to reencode your video, consider Handbrake for an
+          attractive and easy to use GUI consider, or ffmpeg for a powerful
+          command line encoder.
+        </p>
+        <spacer></spacer>
+        <p>
+          <a href="https://handbrake.fr/" class="button">
+            Handbrake (GUI)
+          </a>
+          <a href="https://ffmpeg.org/" class="button">
+            FFMpeg (CLI)
+          </a>
+        </p>
+      </article>
+      <article>
+        <h2> 3 | Add your post and publish your work </h2>
+        <p>
+          There are two steps because publishing can take around a minute.
+          However, publishing takes about the same amount time regardless
+          how many videos are involved. Feel free to add many videos and publish
+          once.
+        </p>
+        <p>
+          Adding a new post is highly configurable, and if you want to
+          further customize it, the posts are stored a JSON so they are easy to
+          edit automatically or manually.
+        </p>
+        <pre>
+python3 -m ipfspod add . "My Post Title"
+python3 -m ipfspod publish .
+</pre>
+      </article>
+    </card-deck>
+    
+    <h1> Creators: Start a channel from scratch </h1>
+    <card-deck>
+      <article>
+        <h2> 1 | Make a new channel key </h2>
+        <p>
+          IPFS files are immutable, but it does include a name system named
+          IPNS that allows you to create updatable links. This is the link
+          you'll give your subscribers so that their clients can check for
+          updates.
+        </p>
+        <p>
+          To do this, you create a new cryptographic key. The name is just for
+          you, so you can keep track of a lot of links if necessary. IPFS will
+          handle storing the key for you. You may also want to export it and
+          keep a backup. If you lose it, you will have to give your subscribers
+          a new link.
+        </p>
+        <spacer></spacer>
+        <pre>ipfs key gen my-channel-name</pre>
+      </article>
+      <article>
+        <h2> 2 | Summarize the channel </h2>
+        <p>
+          It's called Really Simple Syndication for a reason. Start with this
+          example and edit it to match your new channel. Then save it as
+          <tt>my-channel-name.xml</tt>
+        </p>
+        <spacer></spacer>
+<pre>
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;rss version=&quot;2.0&quot;&gt;
+&lt;channel&gt;
+ &lt;title&gt;Mooresville Trailcam&lt;/title&gt;
+ &lt;description&gt;A trail camera in the woods of North Carolina&lt;/description&gt;
+ &lt;link&gt;http://localhost:8080/ipns/k2k4r8liyjxanmri70a0rbw7u2dy03078cj4ssijex5cjjizc7628bi5&lt;/link&gt;
+ &lt;copyright&gt;Creative Commons - Attribution&lt;/copyright&gt;
+ &lt;lastBuildDate&gt;Sun, 10 Jan 2021 10:20:00 +0400&lt;/lastBuildDate&gt;
+ &lt;pubDate&gt;Sun, 10 Jan 2021 10:20:00 +0400&lt;/pubDate&gt;
+ &lt;ttl&gt;1800&lt;/ttl&gt;
+
+VIDEO DETAILS
+
+&lt;/channel&gt;
+&lt;/rss&gt;
+</pre>
+      </article>
+      <article>
+        <h2> 3 | Prepare your video </h2>
+        <ul>
+          <li>
+            Consider encoding your video as
+            <a href="https://www.webmproject.org/about/#">webm</a>,
+            so anyone can open them, even with Chrome and Firefox, for free.
+          </li>
+          <li>
+            License your work with a
+            <a href="https://creativecommons.org/choose/">open license</a>
+            since IPFS depends on people sharing copies.
+          </li>
+          <li>
+            Keep your videos under a few GB so people can still open them on
+            old devices
+          </li>
+        </ul>
+        <p>
+          If you need to reencode your video, consider Handbrake for an
+          attractive and easy to use GUI consider, or ffmpeg for a powerful
+          command line encoder.
+        </p>
+        <spacer></spacer>
+        <p>
+          <a href="https://handbrake.fr/" class="button">
+            Handbrake (GUI)
+          </a>
+          <a href="https://ffmpeg.org/" class="button">
+            FFMpeg (CLI)
+          </a>
+        </p>
+      </article>
+      <article>
+        <h2> 4 | Add your video </h2>
+        <p>
+          You'll need to index your new video with <tt>ipfs add</tt> so
+          you get a hash you can include in your enclosure link.
+          At this point your file is technically available on the Internet
+          but no one can really find it.
+        <p>
+        <pre>ipfs add -Q my-new-video.webm</pre>
+      </article>
+      <article>
+        <h2> 5 | Add video details </h2>
+        <p>
+          Once you're created the information for your channel, add the videos
+          you want to share by replacing <tt>VIDEO DETAILS</tt> with stanzas
+          like the following, one stanza for each video you want to add.
+        </p>
+        <spacer></spacer>
+<pre>
+&lt;item&gt;
+  &lt;title&gt;Back Wall Trailcam - Mooresville NC&lt;/title&gt;
+  &lt;description&gt;A video slideshow from a trailcam in Mooresville NC&lt;/description&gt;
+  &lt;pubDate&gt;Sun, 10 Jan 2021 16:29:15 -0500&lt;/pubDate&gt;
+  &lt;guid&gt;QmbZNHsJX81WTECJrzeRErc5bfkAcFpFfjoNUTSn1hMr65&lt;/guid&gt;
+  &lt;enclosure
+    url=&quot;http://localhost:8080/ipfs/QmbZNHsJX81WTECJrzeRErc5bfkAcFpFfjoNUTSn1hMr65&quot;
+    length=&quot;35638786&quot;
+    type=&quot;video/webm&quot; /&gt;
+&lt;/item&gt;
+</pre>
+      </article>
+      <article>
+        <h2> 6 | Publish your channel </h2>
+        <p>
+          Once you have your file ready, upload your new episode list with
+          <tt>ipfs add</tt> and then update your IPNS link with
+          <tt>ipfs name</tt>. Now your RSS feed is public and updated!
+        </p>
+        <p>
+          IPNS is not the fastest algorithm in the world so expect to wait here
+          for about a minute.
+        </p>
+        <spacer></spacer>
+        <em> You can also publish with the IPFS desktop app </em>
+<pre>
+FEED_HASH=`ipfs add -Q my-channel-name.xml`
+ipfs name publish --key my-channel-name $FEED_HASH
+</pre>
+      </article>
+    </card-deck>
+    <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />Copyright 2021 Sean Gallagher, some rights reserved. This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+  </div> <!--Page-->
+</body>
+</html>
