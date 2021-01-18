@@ -7,4 +7,20 @@ module = "ipfspod"
 author = "Sean Gallagher"
 author-email = "stgallag@gmail.com"
 home-page = "https://github.com/SeanTater/ipfspod"
-requires = ["Jinja2 >= 2.11.2", "ipfshttpconnect", "filetype"]
+requires = [
+    # Jinja formats the RSS feed
+    "Jinja2 >= 2.11.2",
+
+    # Previously depended on ipfshttpconnect
+    # But it doesn't support go-ipfs 0.7.0,
+    # which is what Arch is using by default at the time of this writing.
+    # So for now we just call it in subprocess.
+    # "ipfshttpconnect",
+
+    # Filetype guesses mimetypes when attaching enclosures
+    "filetype",
+    
+    # Allow access to package resources so we don't have to embed them in code
+    # This is alreasy supported in py>=3.7 but this module is for everyone else
+    "importlib_resources"
+]

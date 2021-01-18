@@ -19,7 +19,7 @@ except ImportError:
 import ipfspod
 
 parser = ArgumentParser(
-    description="Publish podcasts on IPFS"
+    description=f"Publish podcasts on IPFS (version {ipfspod.__version__})"
 )
 subparsers = parser.add_subparsers(help="Command")
 parser.set_defaults(command=lambda _: parser.print_help())
@@ -236,6 +236,7 @@ def run_publish(args):
     feed_path.write_text(feed)
 
     if not args.dry_run:
+        print("Publishing to IPNS. This can take 1-5 minutes.")
         file_hash = (
             subprocess
             .check_output(["ipfs", "add", "-Q", feed_path.as_posix()])
